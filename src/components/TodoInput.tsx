@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 
 interface TodoInputProps {
   onAdd: (text: string) => void;
@@ -6,11 +6,6 @@ interface TodoInputProps {
 
 const TodoInput: React.FC<TodoInputProps> = ({ onAdd }) => {
   const [value, setValue] = useState('');
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -20,13 +15,11 @@ const TodoInput: React.FC<TodoInputProps> = ({ onAdd }) => {
     if (e.key === 'Enter' && value.trim()) {
       onAdd(value.trim());
       setValue('');
-      inputRef.current?.focus();
     }
   };
 
   return (
     <input
-      ref={inputRef}
       className="todo-input"
       type="text"
       placeholder="Что нужно сделать?"
@@ -34,6 +27,7 @@ const TodoInput: React.FC<TodoInputProps> = ({ onAdd }) => {
       onChange={handleChange}
       onKeyDown={handleKeyDown}
       aria-label="Новое дело"
+      autoFocus
     />
   );
 };

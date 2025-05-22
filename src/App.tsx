@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import { Todo } from './types/todo';
 import TodoInput from './components/TodoInput';
 import TodoList from './components/TodoList';
-import TodoFilters from './components/TodoFilters';
+import TodoFilters, { Filter } from './components/TodoFilters';
 import Footer from './components/Footer';
 import './App.css';
 
-const filterTodos = (todos: Todo[], filter: 'all' | 'active' | 'completed') => {
+const filterTodos = (todos: Todo[], filter: Filter) => {
   switch (filter) {
-    case 'active':
+    case Filter.Active:
       return todos.filter(t => !t.completed);
-    case 'completed':
+    case Filter.Completed:
       return todos.filter(t => t.completed);
     default:
       return todos;
@@ -19,7 +19,7 @@ const filterTodos = (todos: Todo[], filter: 'all' | 'active' | 'completed') => {
 
 const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all');
+  const [filter, setFilter] = useState<Filter>(Filter.All);
 
   const handleAdd = (text: string) => {
     setTodos(prev => [

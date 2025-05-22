@@ -1,18 +1,35 @@
 import React from 'react';
 
-interface TodoFiltersProps {
-  filter: 'all' | 'active' | 'completed';
-  setFilter: (filter: 'all' | 'active' | 'completed') => void;
+export enum Filter {
+  All = 'all',
+  Active = 'active',
+  Completed = 'completed',
 }
 
-const TodoFilters: React.FC<TodoFiltersProps> = ({ filter, setFilter }) => {
-  return (
-    <div className="todo-filters">
-      <button className={filter === 'all' ? 'active' : ''} onClick={() => setFilter('all')}>All</button>
-      <button className={filter === 'active' ? 'active' : ''} onClick={() => setFilter('active')}>Active</button>
-      <button className={filter === 'completed' ? 'active' : ''} onClick={() => setFilter('completed')}>Completed</button>
-    </div>
-  );
-};
+interface TodoFiltersProps {
+  filter: Filter;
+  setFilter: (filter: Filter) => void;
+}
+
+const FILTERS = [
+  { label: 'All', value: Filter.All },
+  { label: 'Active', value: Filter.Active },
+  { label: 'Completed', value: Filter.Completed },
+];
+
+const TodoFilters: React.FC<TodoFiltersProps> = ({ filter, setFilter }) => (
+  <div className="todo-filters">
+    {FILTERS.map(f => (
+      <button
+        key={f.value}
+        className={filter === f.value ? 'active' : ''}
+        onClick={() => setFilter(f.value)}
+        type="button"
+      >
+        {f.label}
+      </button>
+    ))}
+  </div>
+);
 
 export default TodoFilters; 
